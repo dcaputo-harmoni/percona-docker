@@ -122,7 +122,7 @@ backup_s3() {
 	fi
 
 	mc -C /tmp/mc stat ${INSECURE_ARG} "dest/$S3_BUCKET/$S3_BUCKET_PATH.md5"
-	md5_size=$(sleep 120 && mc -C /tmp/mc stat ${INSECURE_ARG} --json "dest/$S3_BUCKET/$S3_BUCKET_PATH.md5" | sed -e 's/.*"size":\([0-9]*\).*/\1/')
+	md5_size=$(mc -C /tmp/mc stat ${INSECURE_ARG} --json "dest/$S3_BUCKET/$S3_BUCKET_PATH.md5" | sed -e 's/.*"size":\([0-9]*\).*/\1/')
 	if [[ $md5_size =~ "Object does not exist" ]] || ((md5_size < 23000)); then
 		log 'ERROR' 'Backup is empty'
 		log 'ERROR' 'Backup was finished unsuccessfull'
