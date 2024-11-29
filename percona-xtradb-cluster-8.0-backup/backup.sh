@@ -76,15 +76,6 @@ function request_streaming() {
         exit 1
     fi
 
-    mkfifo /tmp/sstdata
-    cat /tmp/sstdata \
-        | xbcloud put \
-            --storage=s3 \
-            --parallel="$(grep -c processor /proc/cpuinfo)" \
-            --md5 $XBCLOUD_ARGS \
-            --s3-bucket="$S3_BUCKET" \
-            "$S3_BUCKET_PATH" 2>&1 &
-
     set +o errexit
     log 'INFO' 'Garbd was started'
     garbd \
